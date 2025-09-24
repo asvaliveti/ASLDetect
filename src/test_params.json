@@ -1,0 +1,47 @@
+[
+    {
+        "lr": 0.001,
+        "batch_size": 32,
+        "lr_decay": 0.001
+    },
+    {
+        "lr": 0.001,
+        "batch_size": 64,
+        "lr_decay": 0.01
+    },
+    {
+        "lr": 0.001,
+        "batch_size": 32,
+        "lr_decay": 0.01
+    },
+    {
+        "lr": 0.01,
+        "batch_size": 32,
+        "lr_decay": 0.001
+    },
+    {
+        "lr": 0.01,
+        "batch_size": 64,
+        "lr_decay": 0.01
+    },
+    {
+        "lr": 0.01,
+        "batch_size": 32,
+        "lr_decay": 0.01
+    },
+    {
+        "lr": 0.05,
+        "batch_size": 32,
+        "lr_decay": 0.001
+    },
+    {
+        "lr": 0.05,
+        "batch_size": 64,
+        "lr_decay": 0.01
+    },
+    {
+        "lr": 0.05,
+        "batch_size": 32,
+        "lr_decay": 0.01
+    }
+]

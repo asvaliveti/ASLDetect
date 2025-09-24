@@ -36,6 +36,7 @@ class SetupImages:
                     self.labels_to_paths[dir].append(os.path.join(IMAGES_BASE_PATH, dir, file))
 
     def create_data_splits(self):
+        """Randomly splits the dataset into train, test, and val sets"""
         print("splitting into train, test, and val")
         for key in self.labels_to_paths.keys():
             random.shuffle(self.labels_to_paths[key])
@@ -44,6 +45,7 @@ class SetupImages:
             self._val[key] = self.labels_to_paths[key][-VAL_SET_SIZE:]
     
     def move_files(self, dataset: str):
+        """Moves files to their respective directories based on the dataset type"""
         for key, value in self.datasets[dataset].items():
             classPath = os.path.join(IMAGES_SPLIT_PATH, dataset, key)
             if not os.path.exists(classPath):

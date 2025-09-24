@@ -1,25 +1,23 @@
 from ModelRunner import ModelRunner
-import torch
-import os
+import json
 
-MODELS_PATH = os.path.join(os.getcwd(), "models")
+NUM_EPOCHS = 400
+PARAMS_FILE = "test_params.json"
+
 if __name__ == "__main__":
-    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-    train_accuracies = []
-    val_accuracies = []
-    num_epochs = 1000
+    # Load runner parameters from JSON file
+    with open("src/test_params.json", "r") as f:
+        runner_params = json.load(f)
 
-    runner = ModelRunner(device, train_accuracies, val_accuracies, num_epochs)
-    for epoch in range(num_epochs):
-        print(f"epoch {epoch}")
-        epoch_loss = runner.train()
-        val_acc = runner.validation()
-        print(f"Epoch [{epoch + 1}/{num_epochs}], Loss: {epoch_loss:.4f}, Val Acc: {val_acc:.4f}")
-        runner.saved_models.append(runner.model.state_dict())
-
-    count = 10
-    while runner.saved_models:
-        torch.save(runner.saved_models.pop(), os.path.join(MODELS_PATH, f"{count}.pth"))
-        count -= 1
-    
-    runner.plot()
+    print(f"Loaded {len(runner_params)} parameter sets from {PARAMS_FILE}")
+    with open("runner_log.txt", "a") as log_file:
+        for i, params in enumerate(runner_params):
+            runner_id = f"model_{i+1}"
+            lr = params.get("lr", 0.001)
+            lr_decay = params.get("lr_decay", 0.9)
+            batch_size = params.get("batch_size", 32)
+            log_str = f"Running {runner_id} | lr={lr} | lr_decay={lr_decay} | batch_size={batch_size}"
+            print(log_str)
+            log_file.write(log_str + "\n")
+            runner = ModelRunner(runner_id, NUM_EPOCHS, learning_rate=lr, lr_decay=lr_decay, batch_size=batch_size)
+            runner.main_loop(NUM_EPOCHS)
